@@ -24,6 +24,11 @@
   },
   "homepage": "https://github.com/hirethisdeveloper/Temerature_Track_API",
   "dependencies": {
-    "express": "^4.13.2"
+    "express": "^4.13.2",
+    "fs": "0.0.2",
+    "mysql": "^2.8.0"
+  },
+  "devDependencies": {
+    "util": "^0.10.3"
   }
 }
