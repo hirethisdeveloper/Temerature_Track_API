@@ -1,0 +1,29 @@
+{
+  "name": "Temperature_Track_API",
+  "version": "0.0.1",
+  "description": "NodeJs tracking utility to capture and store temperature and humidity information from an Ethernet enabled Arduino with a DHT11 daughter board.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hirethisdeveloper/Temerature_Track_API.git"
+  },
+  "keywords": [
+    "arduino",
+    "api",
+    "nodejs",
+    "temperature",
+    "DHT11"
+  ],
+  "author": "Phil Pastorek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hirethisdeveloper/Temerature_Track_API/issues"
+  },
+  "homepage": "https://github.com/hirethisdeveloper/Temerature_Track_API",
+  "dependencies": {
+    "express": "^4.13.2"
+  }
+}
