@@ -14,22 +14,52 @@ var middleware_deviceCheck = function (req, res, next) {
                 }
                 else {
                     console.log("middleware: device not found - " + payload.deviceId);
-                    res.send(JSON.stringify({status: 0, error: "Device not found"}));
+                    res.send({status: 0, error: "Device not found"});
                 }
             }
             else {
                 console.log(data);
-                res.send(JSON.stringify(data));
+                res.send(data);
             }
         });
     }
-    else res.send(JSON.stringify({status: 0, error: "Invalid communication configuration"}));
+    else res.send({status: 0, error: "Invalid communication configuration"});
+};
+var middleware_permissionCheck = function (req, res, next) {
+    var userId = req.headers.userid;
+    if (userId) {
+        db_devices.checkValidUserId({userId: userId}, function (data) {
+            if (data.status == 1) {
+                if (data.results) {
+                    if (data.results.id > 0) {
+                        next();
+                    }
+                    else {
+                        console.log("middleware: user not found - " + userId);
+                        res.send({status: 0, error: "user not found"});
+                    }
+                }
+                else res.send({status: 0, error: "user not found"})
+            }
+            else {
+                console.log(data);
+                res.send(data);
+            }
+        });
+    }
+    else res.send({status: 0, error: "Invalid user"});
 };
 if (app) {
-// APP MIDDLEWARE - anything touching /temp needs to check first if the deviceId passed to it is valid
+    // MIDDLEWARE ====================================================
+    app.use('/device/:id', middleware_permissionCheck);
+    app.use('/device/:id/data', middleware_permissionCheck);
     app.use('/temp', middleware_deviceCheck);
-// GET - index
+    // GETS ====================================================
     app.get('/', getCtrl.index);
-// POST - temp
+    app.get('/device/:id', getCtrl.getDevice);
+    app.get('/device/:id/data', getCtrl.getRecordsByDeviceId);
+    app.get('/location/:id', getCtrl.getLocation);
+    app.get('/locations', getCtrl.getLocations);
+    // POSTS ====================================================
     app.post('/temp', postCtrl.postTempController);
 }
