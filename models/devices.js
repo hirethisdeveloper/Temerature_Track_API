@@ -57,7 +57,14 @@ exports.getLocation          = function (obj, callback) {
         else callback({status: 0, error: err});
     });
 };
-exports.getLocations         = function (callback) {
+exports.getDeviceList        = function (callback) {
+    db.query("select deviceId,title,locationId,status,description from thermal_devices", [], function (err, results) {
+        if (!err) {
+            callback({status: 1, results: results});
+        }
+        else callback({status: 0, error: err});
+    });
+};exports.getLocations         = function (callback) {
     db.query("select id, title from locations", [], function (err, results) {
         if (!err) {
             callback({status: 1, results: results});

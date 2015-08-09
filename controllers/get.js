@@ -40,3 +40,8 @@ exports.getLocations         = function (req, res) {
         res.send(data);
     });
 };
+exports.getDeviceList         = function (req, res) {
+    db_devices.getDeviceList(function (data) {
+        res.send(data);
+    });
+};
