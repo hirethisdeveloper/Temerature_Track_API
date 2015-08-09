@@ -1,3 +1,4 @@
+var pmx                         = require('pmx');
 var app                         = module.parent.exports.app,
     getCtrl                     = require("./controllers/get.js"),
     postCtrl                    = require("./controllers/post.js"),
@@ -74,6 +75,7 @@ var middleware_permissionCheck  = function (req, res, next) {
 };
 if (app) {
     // MIDDLEWARE ====================================================
+    app.use(pmx.expressErrorHandler());
     app.use('/device/:id', middleware_permissionCheck, middleware_get_deviceCheck);
     app.use('/device/:id/data', middleware_permissionCheck, middleware_get_deviceCheck);
     app.use('/temp', middleware_post_deviceCheck);
