@@ -5,7 +5,7 @@ var app                         = module.parent.exports.app,
     db_devices                  = require("./models/devices.js"),
     inspect                     = require('util').inspect;
 var middleware_post_deviceCheck = function (req, res, next) {
-    var payload = utils.getRequestBody(req);
+    var payload = utils.getQueryParams(req);
     if (payload.deviceId) {
         db_devices.deviceCheck({id: payload.deviceId}, function (data) {
             if (data.status == 1) {
