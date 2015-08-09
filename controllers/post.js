@@ -3,7 +3,7 @@ var db_devices = require("../models/devices.js"),
     inspect    = require('util').inspect;
 // POST - TEMP ROUTE CONTROLLER
 exports.postTempController = function (req, res, next) {
-    var payload = utils.getRequestBody(req);
+    var payload = utils.getQueryParams(req);
     db_devices.saveRecord(payload, function (data) {
         res.send(JSON.stringify(data));
     });

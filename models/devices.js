@@ -27,7 +27,14 @@ exports.saveRecord           = function (obj, callback) {
     });
 };
 exports.getRecordsByDeviceId = function (obj, callback) {
-    db.query("select * from thermal_data where deviceId=?", [obj.id], function (err, results) {
+    var sql = "select * from thermal_data where deviceId=?";
+    if (obj.dateRangeDate) {
+        sql += " and dateAdded between '" + obj.dateRangeDate + "' and date_add('" + obj.dateRangeDate +
+            "', interval " + obj.dateRangeIntervalNum + " " + obj.dateRangeIntervalNumStr + ")";
+    }
+    sql += " order by dateAdded asc";
+    console.log(sql);
+    db.query(sql, [obj.id], function (err, results) {
         if (!err) {
             callback({status: 1, results: results});
         }

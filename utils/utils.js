@@ -5,7 +5,7 @@ exports.dbg            = function (str) {
         debugging = false;
     if (dbgVar == "true") console.log(str);
 };
-exports.getRequestBody = function (req) {
+exports.getQueryParams = function (req) {
     var data;
     try {
         if (req) {
