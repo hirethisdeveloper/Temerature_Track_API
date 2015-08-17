@@ -77,17 +77,18 @@ if (app) {
     // MIDDLEWARE ====================================================
     app.use(pmx.expressErrorHandler());
     app.use('/locations', middleware_permissionCheck);
+    app.use('/location/:id', middleware_permissionCheck);
     app.use('/devices/:id', middleware_permissionCheck);
     app.use('/device/:id', middleware_permissionCheck, middleware_get_deviceCheck);
     app.use('/device/:id/data', middleware_permissionCheck, middleware_get_deviceCheck);
     app.use('/temp', middleware_post_deviceCheck);
     // GETS ====================================================
     app.get('/', getCtrl.index);
+    app.get('/locations', getCtrl.getLocations);
+    app.get('/location/:id', getCtrl.getLocation);
     app.get('/devices/:id', getCtrl.getDeviceList);
     app.get('/device/:id', getCtrl.getDevice);
     app.get('/device/:id/data', getCtrl.getRecordsByDeviceId);
-    app.get('/location/:id', getCtrl.getLocation);
-    app.get('/locations', getCtrl.getLocations);
     // POSTS ====================================================
     app.post('/temp', postCtrl.postTempController);
 }
