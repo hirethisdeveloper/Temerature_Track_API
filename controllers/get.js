@@ -41,7 +41,8 @@ exports.getLocations         = function (req, res) {
     });
 };
 exports.getDeviceList         = function (req, res) {
-    db_devices.getDeviceList(function (data) {
+    var locationId = req.params.id;
+    db_devices.getDeviceList(locationId, function (data) {
         res.send(data);
     });
 };

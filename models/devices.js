@@ -57,8 +57,8 @@ exports.getLocation          = function (obj, callback) {
         else callback({status: 0, error: err});
     });
 };
-exports.getDeviceList        = function (callback) {
-    db.query("select deviceId,title,locationId,status,description from thermal_devices", [], function (err, results) {
+exports.getDeviceList        = function (locationId, callback) {
+    db.query("select deviceId,title,locationId,status,description from thermal_devices where locationId=?", [locationId], function (err, results) {
         if (!err) {
             callback({status: 1, results: results});
         }
