@@ -15,10 +15,24 @@ exports.getRecordsByDeviceId = function (req, res) {
     var id          = req.params.id;
     sqlVars.id      = id;
     var queryParams = utils.getQueryParams(req);
+    if ( !queryParams ) {
+
+    }
     if (queryParams.dateRangeDate) sqlVars.dateRangeDate = queryParams.dateRangeDate;
     if (queryParams.dateRangeIntervalNum) sqlVars.dateRangeIntervalNum = queryParams.dateRangeIntervalNum;
     if (queryParams.dateRangeIntervalNumStr) sqlVars.dateRangeIntervalNumStr = queryParams.dateRangeIntervalNumStr;
     db_devices.getRecordsByDeviceId(sqlVars, function (data) {
+        res.send(data);
+    });
+};
+exports.getRecordsByDeviceIdAvgByDate = function (req, res) {
+    var sqlVars     = {};
+    var id          = req.params.id;
+    sqlVars.id      = id;
+    var queryParams = utils.getQueryParams(req);
+    if ( !queryParams.date ) queryParams.date = "curdate()"
+    if (queryParams.date) sqlVars.date = queryParams.date;
+    db_devices.getRecordsByDeviceIdAvgByDate(sqlVars, function (data) {
         res.send(data);
     });
 };
