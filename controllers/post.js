@@ -8,3 +8,8 @@ exports.postTempController = function (req, res, next) {
         res.send(JSON.stringify(data));
     });
 };
+exports.saveLocation       = function (req, res, next) {
+    db_devices.saveLocation(req.body, function (data) {
+        res.send(data);
+    })
+};

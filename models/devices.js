@@ -42,13 +42,12 @@ exports.getRecordsByDeviceId          = function (obj, callback) {
     });
 };
 exports.getRecordsByDeviceIdAvgByDate = function (obj, callback) {
-    var sqlArr = [];
+    var sqlArr  = [];
     var inserts = [obj.id];
-
     for (var i = 0, o = 23; i < o; i++) {
         var nextNum = i + 1;
         var endDate = "'" + obj.date + " " + nextNum + ":00:00'";
-        var sql = ""
+        var sql     = ""
         if (obj.date == "curdate()") {
             if (nextNum > 23) {
                 endDate = "date_add(concat(curdate(), ' 23:00:00', interval 1 hour)";
@@ -56,7 +55,6 @@ exports.getRecordsByDeviceIdAvgByDate = function (obj, callback) {
             else {
                 endDate = "concat(curdate(), ' " + nextNum + ":00:00')";
             }
-
             sql = "(select avg(temperature) from thermal_data where deviceId=? and dateAdded between concat(curdate(), ' " + i + ":00:00') and " + endDate + ") as 'record-" + i + "'";
             sql = db.format(sql, inserts);
             sqlArr.push(sql);
@@ -80,7 +78,7 @@ exports.getRecordsByDeviceIdAvgByDate = function (obj, callback) {
     });
 };
 exports.getDevice                     = function (obj, callback) {
-    db.query("select * from thermal_devices where deviceId=?", [obj.id], function (err, results) {
+    db.query("select * from thermal_devices where id=?", [obj.id], function (err, results) {
         if (!err) {
             callback({status: 1, results: results[0]});
         }
@@ -96,18 +94,45 @@ exports.getLocation                   = function (obj, callback) {
     });
 };
 exports.getDeviceList                 = function (locationId, callback) {
-    db.query("select deviceId,title,locationId,status,description from thermal_devices where locationId=?", [locationId], function (err, results) {
+    var sql = "";
+    if ( locationId == "all" ) {
+        sql = "select id,title,locationId,status,description from thermal_devices order by title asc";
+    }
+    else {
+        var inserts = [locationId];
+        sql = "select id,title,locationId,status,description from thermal_devices where locationId=?"
+        sql = db.format(sql, inserts);
+    }
+    db.query(sql, function (err, results) {
         if (!err) {
             callback({status: 1, results: results});
         }
         else callback({status: 0, error: err});
     });
 };
-exports.getLocations = function (callback) {
+exports.getLocations                  = function (callback) {
     db.query("select id, title from locations", [], function (err, results) {
         if (!err) {
             callback({status: 1, results: results});
         }
         else callback({status: 0, error: err});
     });
+};
+exports.saveLocation                  = function (obj, callback) {
+    var inserts = [],
+        sql     = "";
+    if (obj.id == "add") {
+        var newId = uuid.v4();
+        inserts   = [newId, obj.title, obj.address1, obj.address2, obj.city, obj.state, obj.zip, obj.contactId];
+        sql       = "insert into locations set id=?, title=?, address1=?, address2=?, city=?, state=?, zip=?, contactId=?";
+    }
+    else {
+        inserts   = [obj.title, obj.address1, obj.address2, obj.city, obj.state, obj.zip, obj.contactId, obj.id];
+        sql     = "update locations set title=?, address1=?, address2=?, city=?, state=?, zip=?, contactId=? where id=?";
+    }
+    sql = db.format(sql, inserts);
+    db.query(sql, function (err) {
+        if (!err) callback({status: 1});
+        else callback({status: 0, error: err});
+    })
 };

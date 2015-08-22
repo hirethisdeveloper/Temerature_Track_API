@@ -4,7 +4,9 @@ var app                         = module.parent.exports.app,
     postCtrl                    = require("./controllers/post.js"),
     utils                       = require("./utils/utils.js"),
     db_devices                  = require("./models/devices.js"),
-    inspect                     = require('util').inspect;
+    bodyParser                  = require('body-parser'),
+    inspect                     = require('util').inspect,
+    jsonParser                  = bodyParser.json();
 var middleware_post_deviceCheck = function (req, res, next) {
     var payload = utils.getQueryParams(req);
     if (payload.deviceId) {
@@ -93,6 +95,7 @@ if (app) {
     app.get('/device/:id/data', getCtrl.getRecordsByDeviceId);
     // POSTS ====================================================
     app.post('/temp', postCtrl.postTempController);
+    app.post('/location/:id', jsonParser, postCtrl.saveLocation);
 }
 else {
     console.error("There was an error initializing the application.");
