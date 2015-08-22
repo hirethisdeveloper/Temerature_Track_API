@@ -16,7 +16,7 @@ var middleware_post_deviceCheck = function (req, res, next) {
                     next();
                 }
                 else {
-                    console.log("middleware: device not found - " + payload.deviceId);
+                    console.log("middleware: post_deviceCheck, device not found - " + payload.deviceId);
                     res.send({status: 0, error: "Device not found"});
                 }
             }
@@ -39,7 +39,7 @@ var middleware_get_deviceCheck  = function (req, res, next) {
                     }
                 }
                 else {
-                    console.log("middleware: device not found - " + deviceId);
+                    console.log("middleware: get_deviceCheck, device not found - " + deviceId);
                     res.send({status: 0, error: "Device not found"});
                 }
             }
