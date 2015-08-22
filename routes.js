@@ -10,7 +10,7 @@ var app                         = module.parent.exports.app,
 var middleware_post_deviceCheck = function (req, res, next) {
     var payload = utils.getQueryParams(req);
     if (payload.deviceId) {
-        db_devices.deviceCheck({id: payload.deviceId}, function (data) {
+        db_devices.deviceCheck(payload.deviceId, function (data) {
             if (data.status == 1) {
                 if (data.results > 0) {
                     next();
@@ -31,7 +31,7 @@ var middleware_post_deviceCheck = function (req, res, next) {
 var middleware_get_deviceCheck  = function (req, res, next) {
     var deviceId = req.params.id;
     if (deviceId) {
-        db_devices.deviceCheck({id: deviceId}, function (data) {
+        db_devices.deviceCheck(deviceId, function (data) {
             if (data.status == 1) {
                 if (data.results) {
                     if (data.results > 0) {
