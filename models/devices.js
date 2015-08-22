@@ -3,7 +3,7 @@ var mysql                             = require("../utils/database"),
     uuid                              = require("node-uuid");
 exports.deviceCheck                   = function (deviceId, callback) {
     db.query("select count(id) from thermal_devices where id=?", [deviceId], function (err, results) {
-        if (!err) {
+        if (!err && results[0] > 0) {
             callback({status: 1});
         }
         else callback({status: 0, error: err});
