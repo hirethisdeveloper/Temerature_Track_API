@@ -12,7 +12,7 @@ var middleware_post_deviceCheck = function (req, res, next) {
     if (payload.deviceId) {
         db_devices.deviceCheck({id: payload.deviceId}, function (data) {
             if (data.status == 1) {
-                if (data.results.id > 0) {
+                if (data.results > 0) {
                     next();
                 }
                 else {
@@ -34,7 +34,7 @@ var middleware_get_deviceCheck  = function (req, res, next) {
         db_devices.deviceCheck({id: deviceId}, function (data) {
             if (data.status == 1) {
                 if (data.results) {
-                    if (data.results.id > 0) {
+                    if (data.results > 0) {
                         next();
                     }
                 }
