@@ -12,7 +12,8 @@ var middleware_post_deviceCheck = function (req, res, next) {
     if (payload.deviceId) {
         db_devices.deviceCheck(payload.deviceId, function (data) {
             if (data.status == 1) {
-                if (data.results > 0) {
+                console.log(data);
+                if (data.results) {
                     next();
                 }
                 else {
@@ -34,9 +35,9 @@ var middleware_get_deviceCheck  = function (req, res, next) {
         db_devices.deviceCheck(deviceId, function (data) {
             if (data.status == 1) {
                 if (data.results) {
-                    if (data.results > 0) {
+                    //if (data.results > 0) {
                         next();
-                    }
+                    //}
                 }
                 else {
                     console.log("middleware: get_deviceCheck, device not found - " + deviceId);
