@@ -22,4 +22,5 @@ exports.loginController    = function (req, res, next) {
             res.send(data);
         })
     }
+    else res.send({status: 0, error: "Invalid username or password"});
 }
