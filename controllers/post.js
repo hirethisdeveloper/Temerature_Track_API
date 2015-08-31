@@ -1,4 +1,5 @@
 var db_devices = require("../models/devices.js"),
+    db_auth    = require("../models/auth.js"),
     utils      = require("../utils/utils.js"),
     inspect    = require('util').inspect;
 // POST - TEMP ROUTE CONTROLLER
@@ -13,3 +14,12 @@ exports.saveLocation       = function (req, res, next) {
         res.send(data);
     })
 };
+exports.loginController    = function (req, res, next) {
+    var opts = req.body;
+    console.log(opts, "loginController")
+    if (opts.username && opts.password) {
+        db_auth.checkAuth(opts, function (data) {
+            res.send(data);
+        })
+    }
+}

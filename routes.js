@@ -80,6 +80,7 @@ if (app) {
     app.get('/device/:id/avg_by_date', getCtrl.getRecordsByDeviceIdAvgByDate);
     app.get('/device/:id/data', getCtrl.getRecordsByDeviceId);
     // POSTS ====================================================
+    app.post('/login', jsonParser, postCtrl.loginController);
     app.post('/temp', postCtrl.postTempController);
     app.post('/location/:id', jsonParser, postCtrl.saveLocation);
 }

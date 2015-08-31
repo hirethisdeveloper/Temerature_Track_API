@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/hirethisdeveloper/Temerature_Track_API",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.13.3",
     "express": "^4.13.2",
     "fs": "0.0.2",
