@@ -14,7 +14,7 @@ exports.checkAuth = function (opts, callback) {
                 if (isAuth) {
                     var newuid = uuid.v4();
                     db.query("update accounts set sessionId=? where id=?", [newuid, results[0].id], function (sessionerr) {
-                        if (!sessionerr) callback({status: 1, userId: results[0].id});
+                        if (!sessionerr) callback({status: 1, userId: results[0].id, sessionId: newuid});
                         else callback({status: 0, error: sessionerr});
                     })
                 }
