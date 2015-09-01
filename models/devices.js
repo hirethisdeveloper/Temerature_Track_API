@@ -17,6 +17,14 @@ exports.checkValidUserId              = function (obj, callback) {
         else callback({status: 0, error: err});
     });
 };
+exports.checkValidSessionId           = function (obj, callback) {
+    db.query("select id from accounts where sessionId=?", [obj.sessionId], function (err, results) {
+        if (!err) {
+            callback({status: 1, results: results[0]});
+        }
+        else callback({status: 0, error: err});
+    });
+};
 exports.saveRecord                    = function (obj, callback) {
     var newId = uuid.v4();
     if (obj.status == "OK") obj.status = 1;
@@ -95,13 +103,13 @@ exports.getLocation                   = function (obj, callback) {
 };
 exports.getDeviceList                 = function (locationId, callback) {
     var sql = "";
-    if ( locationId == "all" ) {
+    if (locationId == "all") {
         sql = "select id,title,locationId,status,description from thermal_devices order by title asc";
     }
     else {
         var inserts = [locationId];
-        sql = "select id,title,locationId,status,description from thermal_devices where locationId=?"
-        sql = db.format(sql, inserts);
+        sql         = "select id,title,locationId,status,description from thermal_devices where locationId=?"
+        sql         = db.format(sql, inserts);
     }
     db.query(sql, function (err, results) {
         if (!err) {
@@ -127,7 +135,7 @@ exports.saveLocation                  = function (obj, callback) {
         sql       = "insert into locations set id=?, title=?, address1=?, address2=?, city=?, state=?, zip=?, contactId=?";
     }
     else {
-        inserts   = [obj.title, obj.address1, obj.address2, obj.city, obj.state, obj.zip, obj.contactId, obj.id];
+        inserts = [obj.title, obj.address1, obj.address2, obj.city, obj.state, obj.zip, obj.contactId, obj.id];
         sql     = "update locations set title=?, address1=?, address2=?, city=?, state=?, zip=?, contactId=? where id=?";
     }
     sql = db.format(sql, inserts);
