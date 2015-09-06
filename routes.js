@@ -38,28 +38,29 @@ var middleware_get_deviceCheck  = function (req, res, next) {
     else res.send({status: 0, error: "Invalid communication configuration"});
 };
 var middleware_permissionCheck  = function (req, res, next) {
+    //console.log(req.headers);
     var sessionId = req.headers.sessionid;
     if (sessionId) {
-        db_devices.checkValidSessionId({sessionId: sessionId}, function (data) {
+        db_devices.checkValidSessionId(sessionId, function (data) {
             if (data.status == 1) {
                 if (data.results) {
-                    if (data.results.id > 0) {
+                    //if (data.results[0].id > 0) {
                         next();
-                    }
-                    else {
-                        console.log("middleware: session not found - " + sessionId);
-                        res.send({status: 0, error: "session not found"});
-                    }
+                    //}
+                    //else {
+                    //    console.log("middleware: session not found - " + sessionId);
+                    //    res.send({status: 0, error: "session not found"});
+                    //}
                 }
-                else res.send({status: 0, error: "session not found"})
+                else res.send(data);
             }
             else {
-                console.log(data);
+                //console.log(data);
                 res.send(data);
             }
         });
     }
-    else res.send({status: 0, error: "Invalid user"});
+    else res.send({status: 0, error: "Invalid session"});
 };
 if (app) {
     // MIDDLEWARE ====================================================

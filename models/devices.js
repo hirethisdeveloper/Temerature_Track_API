@@ -17,9 +17,10 @@ exports.checkValidUserId              = function (obj, callback) {
         else callback({status: 0, error: err});
     });
 };
-exports.checkValidSessionId           = function (obj, callback) {
-    db.query("select id from accounts where sessionId=?", [obj.sessionId], function (err, results) {
-        if (!err) {
+exports.checkValidSessionId           = function (sessionId, callback) {
+    db.query("select id from accounts where sessionId=?", [sessionId], function (err, results) {
+        console.log(results);
+        if (!err || err == null) {
             callback({status: 1, results: results[0]});
         }
         else callback({status: 0, error: err});
