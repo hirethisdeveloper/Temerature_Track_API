@@ -74,7 +74,7 @@ if (app) {
     app.use('/temp', middleware_post_deviceCheck);
     // GETS ====================================================
     app.get('/', getCtrl.index);
-    app.post('/logout', jsonParser, getCtrl.logoutCtrl);
+    app.get('/logout', jsonParser, getCtrl.logoutCtrl);
     app.get('/locations', getCtrl.getLocations);
     app.get('/location/:id', getCtrl.getLocation);
     app.get('/devices/:id', getCtrl.getDeviceList);

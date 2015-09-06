@@ -18,8 +18,11 @@ exports.loginController    = function (req, res, next) {
     var opts = req.body;
     console.log(opts, "loginController")
     if (opts.username && opts.password) {
-        db_auth.checkAuth(opts, function (data) {
-            res.send(data);
+        // invalidate any current sessions
+        db_auth.logoutByUsername(opts, function () {
+            db_auth.checkAuth(opts, function (data) {
+                res.send(data);
+            })
         })
     }
     else res.send({status: 0, error: "Invalid username or password"});

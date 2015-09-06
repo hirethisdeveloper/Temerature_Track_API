@@ -32,3 +32,8 @@ exports.logout = function(opts, callback) {
         else callback({status: 0, error: err});
     } )
 };
+exports.logoutByUsername = function(opts, callback) {
+    db.query("update accounts set sessionId='' where username=?", [opts.username], function(err) {
+        callback();
+    } )
+};
