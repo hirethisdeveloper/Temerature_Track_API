@@ -2,6 +2,7 @@ require('pmx').init();
 
 var db_devices = require("../models/devices.js"),
     utils      = require("../utils/utils.js"),
+    db_auth    = require("../models/auth.js"),
     inspect    = require('util').inspect;
 // GET - INDEX ROUTE CONTROLLER
 exports.index                = function (req, res) {
@@ -39,6 +40,12 @@ exports.getRecordsByDeviceIdAvgByDate = function (req, res) {
 exports.getDevice            = function (req, res) {
     var id = req.params.id;
     db_devices.getDevice({id: id}, function (data) {
+        res.send(data);
+    });
+};
+exports.logoutCtrl            = function (req, res) {
+    var sessionId = req.params.sessionid;
+    db_auth.logout({sessionId: sessionId}, function (data) {
         res.send(data);
     });
 };

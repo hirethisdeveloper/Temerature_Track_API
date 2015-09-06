@@ -25,3 +25,10 @@ exports.checkAuth = function (opts, callback) {
         else callback({status: 0, error: accerr});
     });
 };
+
+exports.logout = function(opts, callback) {
+    db.query("update accounts set sessionId='' where sessionId=?", [opts.sessionId], function(err) {
+        if (!err) callback({status: 1});
+        else callback({status: 0, error: err});
+    } )
+};
